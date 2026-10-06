@@ -11,10 +11,10 @@
         'security/security.xml',
         'security/ir.model.access.csv',
         'data/cron.xml',
-        'reports/analytics_report.xml',
-        'views/analytics_views.xml',
-        'views/settings_views.xml',
-        'views/menu.xml',
+        # 'reports/analytics_report.xml',
+        # 'views/analytics_views.xml',
+        # 'views/settings_views.xml',
+        # 'views/menu.xml',
     ],
     'assets': {
         'web.assets_backend': [
