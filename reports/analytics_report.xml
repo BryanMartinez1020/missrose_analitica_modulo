@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="paperformat_landscape" model="report.paperformat">
+            <field name="name">Formato Horizontal</field>
+            <field name="default" eval="False"/>
+            <field name="format">A4</field>
+            <field name="orientation">Landscape</field>
+            <field name="margin_top">45</field>
+            <field name="margin_bottom">20</field>
+            <field name="margin_left">10</field>
+            <field name="margin_right">10</field>
+            <field name="header_line" eval="False"/>
+            <field name="header_spacing">40</field>
+            <field name="dpi">90</field>
+        </record>
+
+        <!-- Report Action -->
+        <record id="action_report_miss_rose_customers" model="ir.actions.report">
+            <field name="name">🖨️ Reporte Analítico (PDF)</field>
+            <field name="model">res.partner</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">missrose_analitica_modulo.report_customers_template</field>
+            <field name="report_file">missrose_analitica_modulo.report_customers_template</field>
+            <field name="print_report_name">'Clientes_Miss_Rose'</field>
+            <field name="binding_model_id" ref="base.model_res_partner"/>
+            <field name="binding_type">report</field>
+            <field name="paperformat_id" ref="missrose_analitica_modulo.paperformat_landscape"/>
+        </record>
+
+        <!-- Report Action for Forecast -->
+        <record id="action_report_miss_rose_forecast" model="ir.actions.report">
+            <field name="name">📊 Pronósticos Mensuales (PDF)</field>
+            <field name="model">res.partner</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">missrose_analitica_modulo.report_forecast_template</field>
+            <field name="report_file">missrose_analitica_modulo.report_forecast_template</field>
+            <field name="print_report_name">'Pronosticos_Ventas'</field>
+            <field name="binding_model_id" ref="base.model_res_partner"/>
+            <field name="binding_type">report</field>
+            <field name="paperformat_id" ref="missrose_analitica_modulo.paperformat_landscape"/>
+        </record>
+
+        <!-- Report Template -->
+        <template id="report_customers_template">
+            <t t-call="web.html_container">
+                <t t-call="web.external_layout">
+                    <div class="page">
+                        <t t-set="days_list" t-value="docs.mapped('mr_days_since_purchase')"/>
+                        <t t-set="max_days" t-value="max(days_list) if days_list else 0"/>
+                        <t t-set="min_days" t-value="min(days_list) if days_list else 0"/>
+                        
+                        <t t-if="max_days &lt;= 30">
+                            <t t-set="report_title" t-value="'Reporte de Clientes VIP (Activos)'"/>
+                            <t t-set="report_subtitle" t-value="'Clientes con compras recientes en los últimos 30 días.'"/>
+                            <t t-set="title_color" t-value="'#28a745'"/>
+                        </t>
+                        <t t-elif="min_days &gt; 30 and max_days &lt;= 90">
+                            <t t-set="report_title" t-value="'Reporte de Clientes en Riesgo (Poco Activos)'"/>
+                            <t t-set="report_subtitle" t-value="'Clientes que compraron hace 1 a 3 meses. ¡Necesitan seguimiento!'"/>
+                            <t t-set="title_color" t-value="'#fd7e14'"/>
+                        </t>
+                        <t t-elif="min_days &gt; 90">
+                            <t t-set="report_title" t-value="'Reporte de Clientes Dormidos (Inactivos)'"/>
+                            <t t-set="report_subtitle" t-value="'Clientes sin compras en más de 3 meses. ¡Lanza una campaña de reactivación!'"/>
+                            <t t-set="title_color" t-value="'#dc3545'"/>
+                        </t>
+                        <t t-else="">
+                            <t t-set="report_title" t-value="'Reporte General de Clientes Miss Rose'"/>
+                               <t t-set="report_subtitle" t-value="'Vista general del estado de todos los clientes seleccionados.'"/>
+                            <t t-set="title_color" t-value="'#17a2b8'"/>
+                        </t>
+
+                        <div class="mb-4">
+                            <h2 t-attf-style="color: {{ title_color }};" t-esc="report_title"/>
+                            <p class="text-muted" t-esc="report_subtitle"/>
+                        </div>
+
+                        <table class="table table-sm table-striped o_main_table mt-4" style="table-layout: fixed; width: 100%; word-wrap: break-word; font-size: 11px;">
+                            <thead t-attf-style="background-color: {{ title_color }}; color: white;">
+                                <tr>
+                                    <th>Cliente</th>
+                                    <th>Celular</th>
+                                    <th>Ciudad / Depto.</th>
+                                    <th>Fecha Últ. Compra</th>
+                                    <th class="text-end">Monto Últ. Compra</th>
+                                    <th class="text-end">Total Histórico</th>
+                                    <th class="text-center">Cant. Facturas</th>
+                                    <th class="text-end">Gasto Promedio</th>
+                                    <th class="text-center">Días sin Comprar</th>
+                                    <th>Vuelve a comprar el</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <t t-foreach="docs" t-as="doc">
+                                    <t t-if="doc.mr_days_since_purchase &lt;= 30">
+                                        <t t-set="badge_class" t-value="'badge text-bg-success'"/>
+                                    </t>
+                                    <t t-elif="doc.mr_days_since_purchase &lt;= 90">
+                                        <t t-set="badge_class" t-value="'badge text-bg-warning'"/>
+                                    </t>
+                                    <t t-else="">
+                                        <t t-set="badge_class" t-value="'badge text-bg-danger'"/>
+                                    </t>
+
+                                    <tr>
+                                        <td><strong><span t-field="doc.name"/></strong></td>
+                                        <td><span t-field="doc.mobile"/></td>
+                                        <td><span t-field="doc.city"/></td>
+                                        <td><span t-field="doc.mr_last_purchase_date"/></td>
+                                        <td class="text-end">
+                                            <span t-field="doc.mr_last_purchase_amount" t-options='{"widget": "monetary", "display_currency": doc.currency_id}'/>
+                                        </td>
+                                        <td class="text-end">
+                                            <strong><span t-field="doc.mr_total_purchase" t-options='{"widget": "monetary", "display_currency": doc.currency_id}'/></strong>
+                                        </td>
+                                        <td class="text-center"><span t-field="doc.mr_purchase_count"/></td>
+                                        <td class="text-end">
+                                            <span t-field="doc.mr_average_ticket" t-options='{"widget": "monetary", "display_currency": doc.currency_id}'/>
+                                        </td>
+                                        <td class="text-center">
+                                            <span t-att-class="badge_class" t-field="doc.mr_days_since_purchase"/>
+                                        </td>
+                                        <td><span t-field="doc.mr_next_purchase_prob"/></td>
+                                    </tr>
+                                </t>
+                            </tbody>
+                        </table>
+                    </div>
+                </t>
+            </t>
+        </template>
+
+        <!-- Report Template for Forecast -->
+        <template id="report_forecast_template">
+            <t t-call="web.html_container">
+                <t t-call="web.external_layout">
+                    <div class="page">
+                        <div class="mt-4 mb-4 text-center">
+                            <h2 style="color: #7D6B91; font-weight: bold;">Proyección de Ventas por Cliente</h2>
+                            <p class="text-muted">¿Cuánto dinero esperamos recibir de cada cliente este mes? (Cálculo basado en sus hábitos y frecuencia de compra).</p>
+                        </div>
+
+                        <table class="table table-sm table-striped o_main_table mt-4">
+                            <thead style="background-color: #E8E4EE; color: #5B4E6B;">
+                                <tr>
+                                    <th>Cliente</th>
+                                    <th>Ciudad / Depto.</th>
+                                    <th>Última Compra</th>
+                                    <th class="text-end">Gasto Promedio</th>
+                                    <th class="text-center">Días sin Comprar</th>
+                                    <th class="text-center">% Probabilidad</th>
+                                    <th class="text-end">Ingreso Proyectado</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <t t-foreach="docs" t-as="doc">
+                                    <t t-if="doc.mr_forecast_probability == 1.0">
+                                        <t t-set="prob_color" t-value="'text-success'"/>
+                                    </t>
+                                    <t t-elif="doc.mr_forecast_probability == 0.5">
+                                        <t t-set="prob_color" t-value="'text-warning'"/>
+                                    </t>
+                                    <t t-else="">
+                                        <t t-set="prob_color" t-value="'text-danger'"/>
+                                    </t>
+
+                                    <tr>
+                                        <td><strong><span t-field="doc.name"/></strong></td>
+                                        <td><span t-field="doc.city"/></td>
+                                        <td><span t-field="doc.mr_last_purchase_date"/></td>
+                                        <td class="text-end">
+                                            <span t-field="doc.mr_average_ticket" t-options='{"widget": "monetary", "display_currency": doc.currency_id}'/>
+                                        </td>
+                                        <td class="text-center">
+                                            <strong t-att-class="prob_color"><span t-esc="doc.mr_days_since_purchase"/></strong>
+                                        </td>
+                                        <td class="text-center">
+                                            <strong t-att-class="prob_color"><span t-esc="int(doc.mr_forecast_probability * 100)"/>%</strong>
+                                        </td>
+                                        <td class="text-end">
+                                            <strong><span t-field="doc.mr_monthly_forecast" t-options='{"widget": "monetary", "display_currency": doc.currency_id}'/></strong>
+                                        </td>
+                                    </tr>
+                                </t>
+                            </tbody>
+                        </table>
+                    </div>
+                </t>
+            </t>
+        </template>
+    </data>
+</odoo>

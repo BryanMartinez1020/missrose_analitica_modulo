@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="action_missrose_analitica_modulo" model="ir.actions.act_window">
+            <field name="name">Clientes Miss Rose</field>
+            <field name="res_model">res.partner</field>
+            <field name="view_mode">list,form</field>
+            <field name="view_id" ref="view_missrose_analitica_modulo_tree"/>
+            <field name="search_view_id" ref="view_missrose_analitica_modulo_search"/>
+            <field name="domain">[('category_id.name', 'ilike', 'MISS ROSE')]</field>
+            <field name="context">{'create': False, 'edit': False, 'delete': False}</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    No hay clientes con la etiqueta "MISS ROSE" todavía.
+                </p>
+            </field>
+        </record>
+
+        <!-- Top menu root -->
+        <menuitem id="missrose_analitica_modulo_menu_root"
+                  name="Miss Rose Analítica"
+                  web_icon="missrose_analitica_modulo,static/description/icon.png"
+                  action="spreadsheet_dashboard.ir_actions_dashboard_action"
+                  groups="missrose_analitica_modulo.group_miss_rose_user"
+                  sequence="10"/>
+
+        <!-- Submenu Clientes (The current table view) -->
+        <menuitem id="missrose_analitica_modulo_menu_clientes"
+                  name="Clientes Miss Rose"
+                  parent="missrose_analitica_modulo_menu_root"
+                  action="action_missrose_analitica_modulo"
+                  sequence="20"/>
+
+        <!-- Submenu Cumpleaños -->
+        <menuitem id="missrose_analitica_modulo_menu_cumpleanos"
+                  name="Cumpleaños"
+                  parent="missrose_analitica_modulo_menu_root"
+                  action="action_miss_rose_birthdays"
+                  sequence="25"/>
+
+        <!-- Action para Pronósticos (Graph/Pivot placeholder) -->
+        <record id="action_miss_rose_pronosticos" model="ir.actions.act_window">
+            <field name="name">Pronósticos</field>
+            <field name="res_model">res.partner</field>
+            <field name="view_mode">list,graph,pivot</field>
+            <field name="view_id" ref="view_miss_rose_forecast_tree"/>
+            <field name="domain">[('category_id.name', 'ilike', 'MISS ROSE')]</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Aún no hay datos para realizar pronósticos.
+                </p>
+            </field>
+        </record>
+
+        <!-- Submenu Pronósticos -->
+        <menuitem id="missrose_analitica_modulo_menu_pronosticos"
+                  name="Pronósticos"
+                  parent="missrose_analitica_modulo_menu_root"
+                  action="action_miss_rose_pronosticos"
+                  sequence="30"/>
+
+        <!-- Action para Reportes de Ventas (Nuestras Gráficas Propias) -->
+        <record id="action_miss_rose_ventas" model="ir.actions.act_window">
+            <field name="name">Reportes de Ventas</field>
+            <field name="res_model">account.move</field>
+            <field name="view_mode">graph,pivot,list</field>
+            <field name="domain">[('move_type', 'in', ('out_invoice', 'out_refund')), ('state', '=', 'posted'), ('partner_id.category_id.name', 'ilike', 'MISS ROSE')]</field>
+            <field name="context">{'search_default_group_by_partner': 1}</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Aún no hay facturas emitidas a clientes Miss Rose para generar gráficas.
+                </p>
+            </field>
+        </record>
+
+        <!-- Vincular explícitamente las vistas creadas -->
+        <record id="action_miss_rose_ventas_view_graph" model="ir.actions.act_window.view">
+            <field name="sequence" eval="1"/>
+            <field name="view_mode">graph</field>
+            <field name="view_id" ref="missrose_analitica_modulo.view_miss_rose_sales_graph"/>
+            <field name="act_window_id" ref="action_miss_rose_ventas"/>
+        </record>
+        
+        <record id="action_miss_rose_ventas_view_pivot" model="ir.actions.act_window.view">
+            <field name="sequence" eval="2"/>
+            <field name="view_mode">pivot</field>
+            <field name="view_id" ref="missrose_analitica_modulo.view_miss_rose_sales_pivot"/>
+            <field name="act_window_id" ref="action_miss_rose_ventas"/>
+        </record>
+
+        <!-- Action para Estadísticas (Tablero Nativo de Odoo) -->
+        <record id="action_miss_rose_estadisticas" model="ir.actions.act_window">
+            <field name="name">Estadísticas</field>
+            <field name="res_model">board.board</field>
+            <field name="view_mode">form</field>
+            <field name="usage">menu</field>
+            <field name="view_id" ref="view_miss_rose_dashboard_board"/>
+        </record>
+
+        <!-- Action para Inventario -->
+        <record id="action_miss_rose_inventory" model="ir.actions.act_window">
+            <field name="name">Productos Miss Rose</field>
+            <field name="res_model">product.template</field>
+            <field name="view_mode">kanban,list,form</field>
+            <field name="domain">[('company_id.name', 'ilike', 'Miss Rose')]</field>
+            <field name="search_view_id" ref="missrose_analitica_modulo.view_miss_rose_product_search"/>
+            <field name="context">{'default_name': 'MISS ROSE '}</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    No hay productos de Miss Rose registrados todavía.
+                </p>
+            </field>
+        </record>
+
+        <record id="action_miss_rose_inventory_kanban" model="ir.actions.act_window.view">
+            <field name="sequence" eval="1"/>
+            <field name="view_mode">kanban</field>
+            <field name="view_id" ref="missrose_analitica_modulo.view_miss_rose_product_kanban"/>
+            <field name="act_window_id" ref="action_miss_rose_inventory"/>
+        </record>
+
+        <record id="action_miss_rose_inventory_tree" model="ir.actions.act_window.view">
+            <field name="sequence" eval="2"/>
+            <field name="view_mode">list</field>
+            <field name="view_id" ref="missrose_analitica_modulo.view_miss_rose_product_tree"/>
+            <field name="act_window_id" ref="action_miss_rose_inventory"/>
+        </record>
+
+        <!-- Submenus -->
+        <menuitem id="missrose_analitica_modulo_menu_ventas"
+                  name="Reportes de Ventas"
+                  parent="missrose_analitica_modulo_menu_root"
+                  action="action_miss_rose_ventas"
+                  sequence="40"/>
+
+        <menuitem id="missrose_analitica_modulo_menu_inventory"
+                  name="Inventario"
+                  parent="missrose_analitica_modulo_menu_root"
+                  action="action_miss_rose_inventory"
+                  sequence="45"/>
+
+        <menuitem id="menu_miss_rose_estadisticas"
+                  name="Estadísticas"
+                  parent="missrose_analitica_modulo_menu_root"
+                  action="spreadsheet_dashboard.ir_actions_dashboard_action"
+                  sequence="10"/>
+    </data>
+</odoo>
