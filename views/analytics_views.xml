@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <data>
-        <record id="view_missrose_analitica_modulo_tree" model="ir.ui.view">
+        <record id="view_missrose_analitica_modulo_list" model="ir.ui.view">
             <field name="name">miss.rose.analytics.list</field>
             <field name="model">res.partner</field>
             <field name="arch" type="xml">
@@ -91,7 +91,7 @@
         <!-- CUMPLEAÑOS VIEWS        -->
         <!-- ======================= -->
         
-        <record id="view_miss_rose_birthday_tree" model="ir.ui.view">
+        <record id="view_miss_rose_birthday_list" model="ir.ui.view">
             <field name="name">miss.rose.birthday.tree</field>
             <field name="model">res.partner</field>
             <field name="arch" type="xml">
@@ -112,7 +112,7 @@
             <field name="name">Cumpleaños de Clientes</field>
             <field name="res_model">res.partner</field>
             <field name="view_mode">list,form</field>
-            <field name="view_id" ref="view_miss_rose_birthday_tree"/>
+            <field name="view_id" ref="view_miss_rose_birthday_list"/>
             <field name="domain">[('category_id.name', 'ilike', 'MISS ROSE')]</field>
             <field name="search_view_id" ref="view_missrose_analitica_modulo_search"/>
         </record>
@@ -122,7 +122,7 @@
         <!-- ======================= -->
         
         <!-- Tree View para Pronósticos -->
-        <record id="view_miss_rose_forecast_tree" model="ir.ui.view">
+        <record id="view_miss_rose_forecast_list" model="ir.ui.view">
             <field name="name">miss.rose.forecast.tree</field>
             <field name="model">res.partner</field>
             <field name="arch" type="xml">
@@ -305,7 +305,7 @@
             </field>
         </record>
 
-        <record id="view_miss_rose_product_tree" model="ir.ui.view">
+        <record id="view_miss_rose_product_list" model="ir.ui.view">
             <field name="name">miss.rose.product.tree</field>
             <field name="model">product.template</field>
             <field name="arch" type="xml">
