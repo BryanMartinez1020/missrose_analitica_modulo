@@ -4,7 +4,7 @@
         <record id="action_missrose_analitica_modulo" model="ir.actions.act_window">
             <field name="name">Clientes Miss Rose</field>
             <field name="res_model">res.partner</field>
-            <field name="view_mode">tree,form</field>
+            <field name="view_mode">list,form</field>
             <field name="view_id" ref="view_missrose_analitica_modulo_tree"/>
             <field name="search_view_id" ref="view_missrose_analitica_modulo_search"/>
             <field name="domain">[('category_id.name', 'ilike', 'MISS ROSE')]</field>
@@ -42,7 +42,7 @@
         <record id="action_miss_rose_pronosticos" model="ir.actions.act_window">
             <field name="name">Pronósticos</field>
             <field name="res_model">res.partner</field>
-            <field name="view_mode">tree,graph,pivot</field>
+            <field name="view_mode">list,graph,pivot</field>
             <field name="view_id" ref="view_miss_rose_forecast_tree"/>
             <field name="domain">[('category_id.name', 'ilike', 'MISS ROSE')]</field>
             <field name="help" type="html">
@@ -63,7 +63,7 @@
         <record id="action_miss_rose_ventas" model="ir.actions.act_window">
             <field name="name">Reportes de Ventas</field>
             <field name="res_model">account.move</field>
-            <field name="view_mode">graph,pivot,tree</field>
+            <field name="view_mode">graph,pivot,list</field>
             <field name="domain">[('move_type', 'in', ('out_invoice', 'out_refund')), ('state', '=', 'posted'), ('partner_id.category_id.name', 'ilike', 'MISS ROSE')]</field>
             <field name="context">{'search_default_group_by_partner': 1}</field>
             <field name="help" type="html">
@@ -101,7 +101,7 @@
         <record id="action_miss_rose_inventory" model="ir.actions.act_window">
             <field name="name">Productos Miss Rose</field>
             <field name="res_model">product.template</field>
-            <field name="view_mode">kanban,tree,form</field>
+            <field name="view_mode">kanban,list,form</field>
             <field name="domain">[('company_id.name', 'ilike', 'Miss Rose')]</field>
             <field name="search_view_id" ref="missrose_analitica_modulo.view_miss_rose_product_search"/>
             <field name="context">{'default_name': 'MISS ROSE '}</field>
@@ -121,7 +121,7 @@
 
         <record id="action_miss_rose_inventory_tree" model="ir.actions.act_window.view">
             <field name="sequence" eval="2"/>
-            <field name="view_mode">tree</field>
+            <field name="view_mode">list</field>
             <field name="view_id" ref="missrose_analitica_modulo.view_miss_rose_product_tree"/>
             <field name="act_window_id" ref="action_miss_rose_inventory"/>
         </record>

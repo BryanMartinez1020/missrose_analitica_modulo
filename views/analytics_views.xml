@@ -5,7 +5,7 @@
             <field name="name">miss.rose.analytics.list</field>
             <field name="model">res.partner</field>
             <field name="arch" type="xml">
-                <tree string="Clientes Miss Rose" create="0" edit="0" delete="0">
+                <list string="Clientes Miss Rose" create="0" edit="0" delete="0">
                     <field name="mr_currency_id" column_invisible="True"/>
                     <field name="name" string="Cliente" decoration-bf="1"/>
                     <field name="mobile" string="Celular" optional="show" help="📱 Número de teléfono celular del cliente."/>
@@ -20,7 +20,7 @@
                     <button name="action_view_mr_invoices" type="object" string="Facturas" class="btn btn-sm btn-outline-primary" icon="fa-file-text-o"/>
                     <field name="mr_days_since_purchase" string="Días sin Comprar" widget="badge" decoration-success="mr_days_since_purchase &lt;= 30" decoration-warning="mr_days_since_purchase &gt; 30 and mr_days_since_purchase &lt;= 60" decoration-danger="mr_days_since_purchase &gt; 60" help="🟢 Verde: Compró hace 30 días o menos. 🟠 Naranja: Entre 31 y 60 días. 🔴 Rojo: Más de 60 días inactivo."/>
                     <field name="mr_next_purchase_prob" string="Vuelve a comprar el" decoration-info="1" decoration-bf="1" help="📅 Fecha estimada: Se calcula obteniendo el promedio de días que transcurren entre cada compra del cliente, sumándolo a la fecha de su última compra."/>
-                </tree>
+                </list>
             </field>
         </record>
 
@@ -95,7 +95,7 @@
             <field name="name">miss.rose.birthday.tree</field>
             <field name="model">res.partner</field>
             <field name="arch" type="xml">
-                <tree string="Cumpleaños Miss Rose" create="0" edit="0" delete="0">
+                <list string="Cumpleaños Miss Rose" create="0" edit="0" delete="0">
                     <field name="name" string="Cliente" decoration-bf="1"/>
                     <field name="mobile" string="Celular"/>
                     <button name="action_send_whatsapp_birthday" type="object" class="btn btn-sm btn-success" icon="fa-whatsapp" title="WhatsApp"/>
@@ -104,14 +104,14 @@
                     <field name="city" string="Ciudad / Depto."/>
                     <field name="mr_birthday_display" string="Fecha de Cumpleaños" decoration-bf="1" decoration-info="1"/>
                     <field name="mr_birthday_month" column_invisible="True"/>
-                </tree>
+                </list>
             </field>
         </record>
 
         <record id="action_miss_rose_birthdays" model="ir.actions.act_window">
             <field name="name">Cumpleaños de Clientes</field>
             <field name="res_model">res.partner</field>
-            <field name="view_mode">tree,form</field>
+            <field name="view_mode">list,form</field>
             <field name="view_id" ref="view_miss_rose_birthday_tree"/>
             <field name="domain">[('category_id.name', 'ilike', 'MISS ROSE')]</field>
             <field name="search_view_id" ref="view_missrose_analitica_modulo_search"/>
@@ -126,7 +126,7 @@
             <field name="name">miss.rose.forecast.tree</field>
             <field name="model">res.partner</field>
             <field name="arch" type="xml">
-                <tree string="Pronósticos Miss Rose" create="0" edit="0" delete="0">
+                <list string="Pronósticos Miss Rose" create="0" edit="0" delete="0">
                     <field name="mr_currency_id" column_invisible="True"/>
                     <field name="name" string="Cliente" decoration-bf="1" help="👤 Nombre completo de la persona o empresa registrada."/>
                     <field name="city" string="Ciudad / Depto." optional="show" help="📍 Ciudad o distrito donde está ubicado el cliente."/>
@@ -136,7 +136,7 @@
                     <field name="mr_expected_ticket" string="Ticket Esperado" widget="monetary" options="{'currency_field': 'mr_currency_id'}" help="Media móvil ponderada dando más peso a las compras recientes."/>
                     <field name="mr_forecast_probability" string="Probabilidad" widget="percentage" decoration-success="mr_forecast_probability &gt;= 0.8" decoration-warning="mr_forecast_probability &lt; 0.8 and mr_forecast_probability &gt;= 0.4" decoration-danger="mr_forecast_probability &lt; 0.4" decoration-bf="1" help="Probabilidad de que compre el próximo mes según decaimiento estadístico."/>
                     <field name="mr_monthly_forecast" string="Proyección ($)" decoration-bf="1" widget="monetary" options="{'currency_field': 'mr_currency_id'}"/>
-                </tree>
+                </list>
             </field>
         </record>
 
@@ -309,14 +309,14 @@
             <field name="name">miss.rose.product.tree</field>
             <field name="model">product.template</field>
             <field name="arch" type="xml">
-                <tree string="Inventario Miss Rose">
+                <list string="Inventario Miss Rose">
                     <field name="name" string="Producto"/>
                     <field name="categ_id" string="Categoría" optional="show"/>
                     <field name="list_price" string="Precio" widget="monetary" options="{'currency_field': 'currency_id'}"/>
                     <field name="currency_id" column_invisible="True"/>
                     <field name="qty_available" string="Stock" widget="badge" decoration-danger="qty_available &lt;= 10" decoration-warning="qty_available &gt; 10 and qty_available &lt;= 30" decoration-success="qty_available &gt; 30"/>
                     <field name="uom_id" string="UdM" groups="uom.group_uom"/>
-                </tree>
+                </list>
             </field>
         </record>
 
