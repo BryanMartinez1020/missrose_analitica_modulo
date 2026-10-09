@@ -13,12 +13,12 @@
                     <field name="city" string="Ciudad / Depto." optional="show" help="📍 Ciudad donde está ubicado el cliente."/>
                     <field name="state_id" string="Departamento" optional="hide" help="🗺️ Departamento o estado del cliente."/>
                     <field name="mr_last_purchase_date" string="Fecha Últ. Compra" help="📆 Fecha exacta en la que el cliente realizó su compra más reciente."/>
-                    <field name="mr_last_purchase_amount" string="Monto Últ. Compra" widget="monetary" help="💰 Dinero facturado únicamente en la compra más reciente."/>
-                    <field name="mr_total_purchase" string="Total Histórico" decoration-bf="1" widget="monetary" help="🏆 Suma de dinero de TODAS las facturas emitidas a este cliente en su historia (Ventas Netas)."/>
+                    <field name="mr_last_purchase_amount" string="Monto Últ. Compra" widget="monetary" options="{'currency_field': 'mr_currency_id'}" help="💰 Dinero facturado únicamente en la compra más reciente."/>
+                    <field name="mr_total_purchase" string="Total Histórico" decoration-bf="1" widget="monetary" options="{'currency_field': 'mr_currency_id'}" help="🏆 Suma de dinero de TODAS las facturas emitidas a este cliente en su historia (Ventas Netas)."/>
                     <field name="mr_purchase_count" string="Cant. Facturas" help="🧾 Cantidad total de facturas de compra que se le han emitido."/>
-                    <field name="mr_average_ticket" string="Gasto Promedio" decoration-info="1" widget="monetary" help="📊 Gasto promedio cada vez que compra (Se calcula dividiendo el Total Comprado entre el Número de facturas)."/>
+                    <field name="mr_average_ticket" string="Gasto Promedio" decoration-info="1" widget="monetary" options="{'currency_field': 'mr_currency_id'}" help="📊 Gasto promedio cada vez que compra (Se calcula dividiendo el Total Comprado entre el Número de facturas)."/>
                     <button name="action_view_mr_invoices" type="object" string="Facturas" class="btn btn-sm btn-outline-primary" icon="fa-file-text-o"/>
-                    <field name="mr_days_since_purchase" string="Días sin Comprar" widget="badge" decoration-success="mr_days_since_purchase &lt;= 30" decoration-warning="mr_days_since_purchase &gt; 30" decoration-danger="mr_days_since_purchase &gt; 60" help="🟢 Verde: Compró hace 30 días o menos. 🟠 Naranja: Entre 31 y 60 días. 🔴 Rojo: Más de 60 días inactivo."/>
+                    <field name="mr_days_since_purchase" string="Días sin Comprar" decoration-success="mr_days_since_purchase &lt;= 30" decoration-warning="mr_days_since_purchase &gt; 30" decoration-danger="mr_days_since_purchase &gt; 60" help="🟢 Verde: Compró hace 30 días o menos. 🟠 Naranja: Entre 31 y 60 días. 🔴 Rojo: Más de 60 días inactivo."/>
                     <field name="mr_next_purchase_prob" string="Vuelve a comprar el" decoration-info="1" decoration-bf="1" help="📅 Fecha estimada: Se calcula obteniendo el promedio de días que transcurren entre cada compra del cliente, sumándolo a la fecha de su última compra."/>
                 </list>
             </field>
@@ -132,10 +132,10 @@
                     <field name="city" string="Ciudad / Depto." optional="show" help="📍 Ciudad o distrito donde está ubicado el cliente."/>
                     <field name="mr_last_purchase_date" string="Última Compra" optional="hide"/>
                     <field name="mr_avg_days_between" string="Compra cada (Días)" widget="integer" help="Frecuencia habitual de compra en días."/>
-                    <field name="mr_days_since_purchase" string="Días sin Comprar" widget="badge" decoration-success="mr_days_since_purchase &lt;= 30" decoration-warning="mr_days_since_purchase &gt; 30" decoration-danger="mr_days_since_purchase &gt; 60" help="⏳ Días desde su última factura."/>
-                    <field name="mr_expected_ticket" string="Ticket Esperado" widget="monetary" help="Media móvil ponderada dando más peso a las compras recientes."/>
+                    <field name="mr_days_since_purchase" string="Días sin Comprar" decoration-success="mr_days_since_purchase &lt;= 30" decoration-warning="mr_days_since_purchase &gt; 30" decoration-danger="mr_days_since_purchase &gt; 60" help="⏳ Días desde su última factura."/>
+                    <field name="mr_expected_ticket" string="Ticket Esperado" widget="monetary" options="{'currency_field': 'mr_currency_id'}" help="Media móvil ponderada dando más peso a las compras recientes."/>
                     <field name="mr_forecast_probability" string="Probabilidad" widget="percentage" decoration-success="mr_forecast_probability &gt;= 0.8" decoration-warning="mr_forecast_probability &lt; 0.8" decoration-danger="mr_forecast_probability &lt; 0.4" decoration-bf="1" help="Probabilidad de que compre el próximo mes según decaimiento estadístico."/>
-                    <field name="mr_monthly_forecast" string="Proyección ($)" decoration-bf="1" widget="monetary" />
+                    <field name="mr_monthly_forecast" string="Proyección ($)" decoration-bf="1" widget="monetary" options="{'currency_field': 'mr_currency_id'}" />
                 </list>
             </field>
         </record>
@@ -312,9 +312,9 @@
                 <list string="Inventario Miss Rose">
                     <field name="name" string="Producto"/>
                     <field name="categ_id" string="Categoría" optional="show"/>
-                    <field name="list_price" string="Precio" widget="monetary" />
+                    <field name="list_price" string="Precio" widget="monetary" options="{'currency_field': 'currency_id'}"/>
                     <field name="currency_id" column_invisible="True"/>
-                    <field name="qty_available" string="Stock" widget="badge" decoration-danger="qty_available &lt;= 10" decoration-warning="qty_available &gt; 10" decoration-success="qty_available &gt; 30"/>
+                    <field name="qty_available" string="Stock" decoration-danger="qty_available &lt;= 10" decoration-warning="qty_available &gt; 10" decoration-success="qty_available &gt; 30"/>
                     <field name="uom_id" string="UdM" groups="uom.group_uom"/>
                 </list>
             </field>
