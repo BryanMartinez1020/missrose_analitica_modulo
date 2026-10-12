@@ -65,7 +65,7 @@
             <field name="name">Reportes de Ventas</field>
             <field name="res_model">account.move</field>
             <field name="view_mode">graph,pivot,list</field>
-            <field name="domain">[('move_type', 'in', ('out_invoice', 'out_refund')), ('state', '=', 'posted'), ('partner_id.category_id.name', 'ilike', 'MISS ROSE')]</field>
+            <field name="domain">[('move_type', 'in', ('out_invoice', 'out_refund')), ('state', '=', 'posted'), ('company_id.name', 'ilike', 'Miss Rose')]</field>
             <field name="context">{'search_default_group_by_partner': 1}</field>
             <field name="help" type="html">
                 <p class="o_view_nocontent_smiling_face">
@@ -127,7 +127,49 @@
             <field name="act_window_id" ref="action_miss_rose_inventory"/>
         </record>
 
+        <!-- Action para Cotizaciones y Ventas (sale.order) -->
+        <record id="action_miss_rose_quotations" model="ir.actions.act_window">
+            <field name="name">Cotizaciones y Ventas</field>
+            <field name="res_model">sale.order</field>
+            <field name="view_mode">list,pivot,graph,form</field>
+            <field name="search_view_id" ref="missrose_analitica_modulo.view_miss_rose_sale_order_search"/>
+            <field name="domain">['|', ('company_id.name', 'ilike', 'Miss Rose'), ('partner_id.category_id.name', 'ilike', 'MISS ROSE')]</field>
+            <field name="context">{'search_default_group_partner': 1}</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    No se encontraron cotizaciones ni pedidos de venta para clientes Miss Rose.
+                </p>
+            </field>
+        </record>
+
+        <record id="action_miss_rose_quotations_view_list" model="ir.actions.act_window.view">
+            <field name="sequence" eval="1"/>
+            <field name="view_mode">list</field>
+            <field name="view_id" ref="missrose_analitica_modulo.view_miss_rose_sale_order_list"/>
+            <field name="act_window_id" ref="action_miss_rose_quotations"/>
+        </record>
+
+        <record id="action_miss_rose_quotations_view_pivot" model="ir.actions.act_window.view">
+            <field name="sequence" eval="2"/>
+            <field name="view_mode">pivot</field>
+            <field name="view_id" ref="missrose_analitica_modulo.view_miss_rose_sale_order_pivot"/>
+            <field name="act_window_id" ref="action_miss_rose_quotations"/>
+        </record>
+
+        <record id="action_miss_rose_quotations_view_graph" model="ir.actions.act_window.view">
+            <field name="sequence" eval="3"/>
+            <field name="view_mode">graph</field>
+            <field name="view_id" ref="missrose_analitica_modulo.view_miss_rose_sale_order_graph"/>
+            <field name="act_window_id" ref="action_miss_rose_quotations"/>
+        </record>
+
         <!-- Submenus -->
+        <menuitem id="missrose_analitica_modulo_menu_quotations"
+                  name="Cotizaciones y Ventas"
+                  parent="missrose_analitica_modulo_menu_root"
+                  action="action_miss_rose_quotations"
+                  sequence="35"/>
+
         <menuitem id="missrose_analitica_modulo_menu_ventas"
                   name="Reportes de Ventas"
                   parent="missrose_analitica_modulo_menu_root"
