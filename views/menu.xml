@@ -44,6 +44,7 @@
             <field name="res_model">res.partner</field>
             <field name="view_mode">list,graph,pivot</field>
             <field name="view_id" ref="view_miss_rose_forecast_list"/>
+            <field name="search_view_id" ref="view_missrose_analitica_modulo_search"/>
             <field name="domain">[('category_id.name', 'ilike', 'MISS ROSE')]</field>
             <field name="help" type="html">
                 <p class="o_view_nocontent_smiling_face">

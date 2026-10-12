@@ -18,8 +18,7 @@
     ],
     'assets': {
         'web.assets_backend': [
-            # 'missrose_analitica_modulo/static/src/css/style.css',
-            # 'missrose_analitica_modulo/static/src/js/dashboard.js',
+            'missrose_analitica_modulo/static/src/css/style.css',
         ],
     },
     'installable': True,

@@ -1,0 +1,5 @@
+__pycache__/
+*.pyc
+*.pyo
+check_xml.py
+.DS_Store

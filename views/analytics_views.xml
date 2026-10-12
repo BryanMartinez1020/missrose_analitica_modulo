@@ -18,7 +18,7 @@
                     <field name="mr_purchase_count" string="Cant. Facturas" />
                     <field name="mr_average_ticket" string="Gasto Promedio" />
                     <button name="action_view_mr_invoices" type="object" string="Facturas" icon="fa-file-text-o"/>
-                    <field name="mr_days_since_purchase" string="Días sin Comprar" />
+                    <field name="mr_days_since_purchase" string="Días sin Comprar" widget="badge" decoration-success="mr_days_since_purchase &lt;= 30 and mr_last_purchase_date" decoration-warning="mr_days_since_purchase &gt; 30 and mr_days_since_purchase &lt;= 90 and mr_last_purchase_date" decoration-danger="mr_days_since_purchase &gt; 90 or not mr_last_purchase_date"/>
                     <field name="mr_next_purchase_prob" string="Vuelve a comprar el" />
                 </list>
             </field>
@@ -132,7 +132,7 @@
                     <field name="city" string="Ciudad / Depto." optional="show" />
                     <field name="mr_last_purchase_date" string="Última Compra" optional="hide"/>
                     <field name="mr_avg_days_between" string="Compra cada (Días)" />
-                    <field name="mr_days_since_purchase" string="Días sin Comprar" />
+                    <field name="mr_days_since_purchase" string="Días sin Comprar" widget="badge" decoration-success="mr_days_since_purchase &lt;= 30 and mr_last_purchase_date" decoration-warning="mr_days_since_purchase &gt; 30 and mr_days_since_purchase &lt;= 90 and mr_last_purchase_date" decoration-danger="mr_days_since_purchase &gt; 90 or not mr_last_purchase_date"/>
                     <field name="mr_expected_ticket" string="Ticket Esperado" />
                     <field name="mr_forecast_probability" string="Probabilidad" />
                     <field name="mr_monthly_forecast" string="Proyección ($)" />
